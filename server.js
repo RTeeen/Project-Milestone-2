@@ -1,14 +1,17 @@
 const http = require('http');
 const fs = require('fs');
+const fsP = require('fs').promises;
 const path = require('path');
 const formidable = require('formidable');
-
 http.createServer((request, response)=> {
-    console.log('request ', request.url);
-    var filePath = '.' + request.url;
-    if (filePath == './') {
-        filePath = './index.html';
-    }
+    console.log("request " + request.url);
+    var filePath = request.url;
+    if (filePath === '/favicon.ico') {
+        response.writeHead(200, {'Content-Type': 'image/x-icon'} );
+        response.end();
+        return;
+      }
+   
     var extname = String(path.extname(filePath)).toLowerCase();
     var mimeTypes = {
         '.html': 'text/html',
@@ -28,43 +31,36 @@ http.createServer((request, response)=> {
         '.wasm': 'application/wasm'
     };
     var contentType = mimeTypes[extname] || 'application/octet-stream';
-    fs.readFile(filePath, function (error, content) {
-        if (error) {
-            if (error.code == 'ENOENT') {
-                fs.readFile('./404.html', function (error, content) {
-                    response.writeHead(404, { 'Content-Type': 'text/html' });
-                    response.end(content, 'utf-8');
-                });
-            }
-            else {
-                response.writeHead(500);
-                response.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
-            }
-        }
-        else {
-            response.writeHead(200, { 'Content-Type': contentType });
+    
+    if (filePath === '/') {
+        filePath = __dirname + '/index.html';
+        console.log(filePath);
+        fsP.readFile(filePath) 
+        .then((content)=>{
+            response.writeHead(200, { 'Content-Type': 'text/html' });
             response.end(content, 'utf-8');
-        }
-    });
-    if (req.url === "./upload.html" && req.method.toLowerCase() === 'post') {
-        // parse a file upload
-        const form = formidable({ multiples: true });
-     
-        form.parse(req, (err, fields, files) => {
-          res.writeHead(200, { 'content-type': 'application/json' });
-          res.end(JSON.stringify({ fields, files }, null, 2));
+        })
+        .catch((err)=>{ console.log(err.code);
         });
-     
-        return;
-      }
-      res.writeHead(200, { 'content-type': 'text/html' });
-      res.end(`
-        <h2>With Node.js <code>"http"</code> module</h2>
-        <form action="/api/upload" enctype="multipart/form-data" method="post">
-          <div>Text field title: <input type="text" name="title" /></div>
-          <div>File: <input type="file" name="multipleFiles" multiple="multiple" /></div>
-          <input type="submit" value="Upload" />
-        </form>
-      `);
+    }else if(extname !== ""){
+        filePath = __dirname + filePath;
+        fsP.readFile(filePath) 
+        .then((content)=>{
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end(content, 'utf-8');
+        })
+        .catch((err)=>{ console.log(err.code);
+        });
+    }else{
+        if(request.url === "/upload" && request.method.toLocaleLowerCase()==="post"){
+            console.log(path.join(__dirname, "/uploads"));
+            const form = formidable({ multiples: true, uploadDir: path.join(__dirname, "uploads"), keepExtensions: true});
+            form.parse(request, (err,fields,files)=>{
+                response.writeHead(200, {contentType:'text/html'});
+                response.end("<h1> This is the result. It worked!</h1>");
+            });
+        }
+    }
+
 }).listen(8125);
 console.log('Server running at http://127.0.0.1:8125/');
