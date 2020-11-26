@@ -70,7 +70,26 @@ http.createServer((request, response)=> {
             form.parse(request, (err,fields,files)=>{
                 fs.readFile('./upload.html', function (error, content) {
                     response.writeHead(404, { 'Content-Type': 'text/html' });
-                    onlineGrayscale();
+                    fsP.readdir(path.join(__dirname,"grayscale", "uploads"))
+                        .then((data)=>{
+                                 data.forEach(elementz => {
+                                 let i=1;
+                                 elementz =path.join(__dirname,"grayscale", "uploads", elementz);
+                                 let finalName = path.join(__dirname,"grayscale", "uploads", `${i}.png`);
+                                 console.log(elementz);
+                                 console.log("doing it!");
+                                 fs.rename(elementz, finalName ,(err)=>{
+                                    console.error(err);
+                                 })
+                                 i++;
+
+                                    
+                             });
+                        })
+                        .then(()=>onlineGrayscale())
+                        .catch((err)=>reject(err))
+
+
                     response.end(content, 'utf-8');
                 });
             });

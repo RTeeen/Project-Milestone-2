@@ -4,12 +4,13 @@ function showPreview(event){
     if(localStorage.getItem("needPreview") == 1){
         localStorage.setItem('needPreview', 0);
         alert("hello");
-
-        document.getElementById('Before').src = "./2.png";
-        document.getElementById('After').src = "./1.png";
+        document.getElementById('preview').style.visibility ="visible";
+        document.getElementById('Before').src = "./grayscale/uploads/1.png";
+        document.getElementById('After').src = "./grayscale/grayscaled/GS_1.png";
     }
 }
 
 function previewMark(){
+    alert("marked!");
     localStorage.setItem('needPreview', 1);
 }

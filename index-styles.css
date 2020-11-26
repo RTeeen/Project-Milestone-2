@@ -4,8 +4,17 @@ html{
     background-repeat: repeat;
     background-size: 30%;
 }
-#preview{
-    visibility: visible;
+
+#images{
+
+    padding: 25px;
+    border-style: none;
+    margin-left: 15px;
+}
+#After,#Before{
+    border-style: double;
+    border-color: gold;
+    margin-left: 5px;
 }
 h1{
     font-family: 'Antic Didone', serif;
