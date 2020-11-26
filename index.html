@@ -11,12 +11,12 @@
   <link rel="stylesheet" href="./index-styles.css">
   <link rel="preconnect" href="https://fonts.gstatic.com"> 
   <link href="https://fonts.googleapis.com/css2?family=Antic+Didone&display=swap" rel="stylesheet">  
-
+  <script src="Client.js"></script>
   
 
 </head>
 
-<body>
+<body onload="showPreview(event)">
     
 
     <div>
@@ -30,13 +30,13 @@
             
             <input type="file"  multiple="multiple" accept="image/png" name="multiplefiles" id="upload">
             <input type="submit" value="Upload" id="button">
-            <button type="button" onclick="loadFile(event)" id="Preview"></button>
         </form>
         
-
         <h2>Preview section</h2>
-        <img id="Before" width="300px">
-        <img id="After" width="300px">	
+        <div id="preview">
+            <img id="Before" width="300px">
+            <img id="After" width="300px">
+        </div>	
     
     </main>
 
@@ -45,7 +45,7 @@
 
     </footer>
     
- <script src="Client.js"></script>
+    
 
 </body>
 </html>

@@ -97,13 +97,13 @@ const grayScale = (pathIn, pathOut) => {
         idx = 0;
         this.pack().pipe(fs.createWriteStream(`${pathOut}/GS_${fileName}`));
         resolve("Grayscale filter applied to all the photos in the directory!");
-        readDir(path.join(__dirname, "uploads"))
+        /*readDir(path.join(__dirname, "uploads"))
           .then((data)=>{
             data.forEach(elementz => fs.unlink(elementz, (err)=>{
               if(err) reject(err);
             }));
           })
-          .catch((err)=>reject(err))
+          .catch((err)=>reject(err))*/
       })
       .on("error",(error)=>{
         reject(error);

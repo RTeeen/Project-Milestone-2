@@ -1,7 +1,15 @@
-var loadFile = function(event) {
-    var beforeTag = document.getElementById('Before');
-    var afterTag = document.getElementById('After');
-    beforeTag.src = "./2.png";
-    //URL.createObjectURL(event.target.files[0]);
-    afterTag.src = "./1.png";
-};
+
+function showPreview(event){
+    console.log(localStorage.getItem("needPreview"));
+    if(localStorage.getItem("needPreview") == 1){
+        localStorage.setItem('needPreview', 0);
+        alert("hello");
+
+        document.getElementById('Before').src = "./2.png";
+        document.getElementById('After').src = "./1.png";
+    }
+}
+
+function previewMark(){
+    localStorage.setItem('needPreview', 1);
+}
