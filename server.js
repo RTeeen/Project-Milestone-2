@@ -3,6 +3,9 @@ const fs = require('fs');
 const fsP = require('fs').promises;
 const path = require('path');
 const formidable = require('formidable');
+const {onlineGrayscale} = require("./grayscale/main.js");
+
+
 http.createServer((request, response)=> {
     console.log("request " + request.url);
     var filePath = request.url;
@@ -34,7 +37,7 @@ http.createServer((request, response)=> {
     
     if (filePath === '/') {
         filePath = __dirname + '/index.html';
-        console.log(filePath);
+        //console.log(filePath);
         fsP.readFile(filePath) 
         .then((content)=>{
             response.writeHead(200, { 'Content-Type': 'text/html' });
@@ -49,17 +52,30 @@ http.createServer((request, response)=> {
             response.writeHead(200, { 'Content-Type': 'text/html' });
             response.end(content, 'utf-8');
         })
-        .catch((err)=>{ console.log(err.code);
+        .catch((err)=>{ 
+            if (err.code == 'ENOENT') {
+                fs.readFile('./404.html', function (error, content) {
+                    response.writeHead(404, { 'Content-Type': 'text/html' });
+                    response.end(content, 'utf-8');
+                });
+            }
+            else {
+                response.writeHead(500);
+                response.end('Sorry, check with the site admin for error: ' + err.code + ' ..\n');
+            }
         });
     }else{
         if(request.url === "/upload" && request.method.toLocaleLowerCase()==="post"){
-            console.log(path.join(__dirname, "/uploads"));
-            const form = formidable({ multiples: true, uploadDir: path.join(__dirname, "uploads"), keepExtensions: true});
+            const form = formidable({ multiples: true, uploadDir: path.join(__dirname, "grayscale" ,"uploads"), keepExtensions: true});
             form.parse(request, (err,fields,files)=>{
-                response.writeHead(200, {contentType:'text/html'});
-                response.end("<h1> This is the result. It worked!</h1>");
+                fs.readFile('./upload.html', function (error, content) {
+                    response.writeHead(404, { 'Content-Type': 'text/html' });
+                    onlineGrayscale();
+                    response.end(content, 'utf-8');
+                });
             });
         }
+        
     }
 
 }).listen(8125);

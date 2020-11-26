@@ -48,10 +48,12 @@ form{
     background-color: gold; 
     border-radius: 15px;
     padding: 0.7%;
+    display: inline;
     color: black;
     text-align: center;
-    margin-left: 30px;
+    
 }
+
 footer{
     display: flex;
     background-color: black;

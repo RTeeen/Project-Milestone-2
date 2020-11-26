@@ -28,12 +28,15 @@
 
         <form action="/upload" enctype="multipart/form-data" method="post">
             
-            <input type="file" multiple="multiple" accept="image/png" name="multiplefiles" id="upload">
-            <input type="submit" value="upload" id="button">
+            <input type="file"  multiple="multiple" accept="image/png" name="multiplefiles" id="upload">
+            <input type="submit" value="Upload" id="button">
+            <button type="button" onclick="loadFile(event)" id="Preview"></button>
         </form>
+        
 
         <h2>Preview section</h2>
-        <img id="output">
+        <img id="Before" width="300px">
+        <img id="After" width="300px">	
     
     </main>
 
@@ -42,10 +45,7 @@
 
     </footer>
     
-        
-    </script>
-        
-
+ <script src="Client.js"></script>
 
 </body>
 </html>
