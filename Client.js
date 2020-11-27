@@ -1,4 +1,3 @@
-
 function showPreview(event){
     console.log(localStorage.getItem("needPreview"));
     if(localStorage.getItem("needPreview") == 1){

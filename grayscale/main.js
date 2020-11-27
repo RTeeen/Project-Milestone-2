@@ -16,7 +16,10 @@ function onlineGrayscale (){
 
   readDir(pathUnzipped)
     .then((result)=>{
-      return grayScale(result,pathProcessed);
+      console.log(result);
+        return grayScale(result,pathProcessed);
+
+      
     })
     .then((msg)=> console.log(msg))
     .catch((err)=> console.log(err))

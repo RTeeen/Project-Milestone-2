@@ -4,6 +4,7 @@ const fsP = require('fs').promises;
 const path = require('path');
 const formidable = require('formidable');
 const {onlineGrayscale} = require("./grayscale/main.js");
+let i=1;
 
 
 http.createServer((request, response)=> {
@@ -72,8 +73,9 @@ http.createServer((request, response)=> {
                     response.writeHead(404, { 'Content-Type': 'text/html' });
                     fsP.readdir(path.join(__dirname,"grayscale", "uploads"))
                         .then((data)=>{
+                            console.log(data);
                                  data.forEach(elementz => {
-                                 let i=1;
+                                 
                                  elementz =path.join(__dirname,"grayscale", "uploads", elementz);
                                  let finalName = path.join(__dirname,"grayscale", "uploads", `${i}.png`);
                                  console.log(elementz);
@@ -81,12 +83,18 @@ http.createServer((request, response)=> {
                                  fs.rename(elementz, finalName ,(err)=>{
                                     console.error(err);
                                  })
-                                 i++;
-
-                                    
-                             });
+                                i++;
+                                 
+                                });
+                                i = 1;
+                                return data;
                         })
-                        .then(()=>onlineGrayscale())
+                        .then((data)=>setTimeout(() => {
+                            data.forEach((unit)=>{
+                                onlineGrayscale();
+                            });
+                            
+                        }, 2000))
                         .catch((err)=>reject(err))
 
 
