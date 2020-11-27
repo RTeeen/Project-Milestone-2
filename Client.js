@@ -13,10 +13,3 @@ function previewMark(){
     alert("marked!");
     localStorage.setItem('needPreview', 1);
 }
-function clearDir(params) {
-    
-    workingDirectory.getFile(`./grayscale/uploads/${i}.png`, {}, function(fileEntry) {
-        fileEntry.remove(function() {
-        });
-      }, handleError);
-}
