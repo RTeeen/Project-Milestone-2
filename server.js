@@ -67,6 +67,12 @@ http.createServer((request, response)=> {
         });
     }else{
         if(request.url === "/upload" && request.method.toLocaleLowerCase()==="post"){
+
+            for(let x = 1; x <= 10; x++){
+                fsP.unlink(`./grayscale/uploads/${x}.png`)
+                fsP.unlink(`./grayscale/grayscaled/GS_${x}.png`)
+            }
+   
             const form = formidable({ multiples: true, uploadDir: path.join(__dirname, "grayscale" ,"uploads"), keepExtensions: true});
             form.parse(request, (err,fields,files)=>{
                 fs.readFile('./upload.html', function (error, content) {

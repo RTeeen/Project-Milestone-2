@@ -9,12 +9,19 @@ html{
 
     padding: 25px;
     border-style: none;
-    margin-left: 15px;
+    display: flow-root;
 }
-#After,#Before{
+#After{
     border-style: double;
     border-color: gold;
-    margin-left: 5px;
+    margin-right: 100px;
+    float: right;
+}
+#Before{
+    border-style: double;
+    border-color: gold;
+    margin-left: 100px;
+    float: left;
 }
 h1{
     font-family: 'Antic Didone', serif;
